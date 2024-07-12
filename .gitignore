@@ -144,10 +144,10 @@ dmypy.json
 # Poetry
 poetry.lock
 
-data
-
 .pytest_cache
 
 outputs
 
 settings.json
+
+/data/
