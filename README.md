@@ -1,4 +1,6 @@
-# antibody_commonness
+# antibody_commonness 
+
+[![Coverage Status](https://coveralls.io/repos/github/USERNAME/REPO/badge.svg?branch=master)](https://coveralls.io/github/USERNAME/REPO?branch=master)
 
 A code repository for exploring ways to quantify antibody commonness
 
