@@ -38,10 +38,12 @@ def calculate_pll(
         model, tokenizer, apll_dataset, batch_size=batch_size, device=device
     )
 
+    pll = pll_scores.get_pll()
+    pll_normalised = pll_scores.get_length_normalised_pll()
     # Store PLL scores
     np.save(
         output_file,
-        np.concatenate((pll_scores.get_pll(), pll_scores.get_length_normalised_pll())),
+        np.concatenate((np.expand_dims(pll, axis=1), np.expand_dims(pll_normalised, axis=1)), axis=1),
     )
 
 
