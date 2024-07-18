@@ -56,7 +56,6 @@ def device():
 def test_calculate_pll(request, mock_model, tokenizer_fixture, dataset, device):
     tokenizer = request.getfixturevalue(tokenizer_fixture)
     batch_size = 2
-    here = mock_model(input_ids=torch.ones((1,2,3))).logits
     pll_storage = calculate_pll(mock_model, tokenizer, dataset, batch_size, device)
 
     assert isinstance(pll_storage, PseudoLogLikelihoodAggregator)

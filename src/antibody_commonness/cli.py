@@ -73,6 +73,7 @@ def igt5(**kwargs):
     """Calculate PLL using IgT5 model."""
     model = T5EncoderModel.from_pretrained("Exscientia/IgT5_unpaired")
     tokenizer = T5Tokenizer.from_pretrained("Exscientia/IgT5_unpaired")
+    tokenizer.mask_token = "<extra_id_0>"
     run_calculate_pll(model=model, tokenizer=tokenizer, **kwargs)
 
 
