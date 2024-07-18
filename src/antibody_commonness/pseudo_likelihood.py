@@ -46,6 +46,11 @@ def calculate_pll(
 
     model.eval()
     model.to(device)
+
+    try:
+        model = torch.compile(model)
+    except Exception as e:
+        print(f"Could not compile torch model, running uncompiled (compiled model runs faster)/n Error: {e}")
     
     # Iterate over the pll dataset
     for batch in tqdm(dataloader):
