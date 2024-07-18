@@ -21,6 +21,7 @@ def calculate_pll(
     dataset: AntibodyPLLDataset,
     batch_size: int,
     device: Union[str, torch.device],
+    compile_model: bool = False
 ) -> PseudoLogLikelihoodAggregator:
     """
     Calculates the pseudo log-likelihood (PLL) for a given model, tokenizer, dataset, and batch size.
@@ -46,11 +47,12 @@ def calculate_pll(
 
     model.eval()
     model.to(device)
-
-    try:
-        model = torch.compile(model)
-    except Exception as e:
-        print(f"Could not compile torch model, running uncompiled (compiled model runs faster)/n Error: {e}")
+    
+    if compile_model:
+        try:
+            model = torch.compile(model)
+        except Exception as e:
+            print(f"Could not compile torch model, running uncompiled (compiled model runs faster)/n Error: {e}")
     
     # Iterate over the pll dataset
     for batch in tqdm(dataloader):

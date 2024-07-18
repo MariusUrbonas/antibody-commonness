@@ -48,6 +48,12 @@ def common_options(func):
             required=True,
             help="Path to the output file for PLL scores",
         ),
+        click.option(
+            "--compile-model",
+            is_flag=True,
+            default=False,
+            help="Whether to compile the model before calculating PLL",
+        ),
     ]
     return reduce(lambda x, opt: opt(x), options, func)
 
@@ -84,7 +90,7 @@ def automodel(model_name, **kwargs):
 
 
 def run_calculate_pll(
-    model, tokenizer, batch_size, input_csv, input_column, device, output_file
+    model, tokenizer, batch_size, input_csv, input_column, device, output_file, compile_model
 ):
     """Calculate Pseudo Log Likelihood for antibody sequences."""
 
@@ -92,7 +98,7 @@ def run_calculate_pll(
     apll_dataset = AntibodyPLLDataset(antibody_seqs)
     # Calculate PLL
     pll_scores = calculate_pll_func(
-        model, tokenizer, apll_dataset, batch_size=batch_size, device=device
+        model, tokenizer, apll_dataset, batch_size=batch_size, device=device, compile_model=compile_model
     )
 
     pll = pll_scores.get_pll()
