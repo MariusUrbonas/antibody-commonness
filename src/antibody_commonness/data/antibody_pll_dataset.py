@@ -1,4 +1,4 @@
-from typing import Any, Dict, Generator, Iterable, List
+from typing import Any, Dict, Generator, Iterable, List, Union
 
 import torch
 from torch.utils.data import IterableDataset
@@ -30,6 +30,7 @@ class AntibodyPLLDataset(IterableDataset):
 
     def __init__(self, antibody_sequences: list[str]):
         self.antibody_sequences: Iterable = antibody_sequences
+        self.size = sum([len(antib) for antib in self.antibody_sequences])
 
     def __iter__(self) -> Generator[Dict[str, Any], Any, Any]:
         for i, antibody_seq in enumerate(self.antibody_sequences):
@@ -37,6 +38,9 @@ class AntibodyPLLDataset(IterableDataset):
                 masked_antibody_seq = antibody_seq[:mask_i] + self.MASK_TOKEN_PLACEHOLDER + antibody_seq[mask_i+1:]
                 masked_aa = antibody_seq[mask_i]
                 yield {"masked_antibodies": masked_antibody_seq, "masked_aa": masked_aa, "mask_idx": mask_i, "antibody_idx": i}
+
+    def __len__(self) -> Union[None, int]:
+        return self.size
 
 
 def collate_anitbody_pll_batch(batch: List[Dict[str, Any]]) -> Dict[str, torch.Tensor]:
